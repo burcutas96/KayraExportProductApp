@@ -24,7 +24,7 @@ namespace Service.Concrete
         
 
 
-        public async Task<bool> Add(ProductInsertDto productInsertDto)
+        public async Task Add(ProductUpsertDto productInsertDto)
         {
             await CheckIfProductNameExists(productInsertDto.Name);
 
@@ -38,13 +38,41 @@ namespace Service.Concrete
             };
 
             await _productDal.AddAsync(product);
-
-            return true;
+            await _productDal.SaveChangesAsync();
         }
 
-        
+
+        public async Task Update(int productId, ProductUpsertDto productUpsertDto)
+        {
+            Product product = await CheckIfProductEntity(productId);
 
 
+            if (!string.Equals(product.Name, productUpsertDto.Name, StringComparison.OrdinalIgnoreCase))
+            {
+                await CheckIfProductNameExists(productUpsertDto.Name, productId);
+                product.Name = productUpsertDto.Name;
+            }
+
+            product.Price = productUpsertDto.Price;
+            product.Description = productUpsertDto.Description;
+            product.Stock = productUpsertDto.Stock;
+            product.UpdateDate = DateTime.Now;
+
+            await _productDal.SaveChangesAsync();
+        }
+
+
+
+
+        private async Task<Product> CheckIfProductEntity(int productId)
+        {
+            Product? product = await _productDal
+                .GetAsync(p => p.Id == productId && !p.IsDeleted)
+                ?? 
+                throw new ProductNotFoundException();
+
+            return product;
+        }
 
 
         private async Task CheckIfProductNameExists(string productName, int? productId = null)

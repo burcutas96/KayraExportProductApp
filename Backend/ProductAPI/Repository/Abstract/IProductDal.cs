@@ -20,10 +20,12 @@ namespace Repository.Abstract
 
         Task<Product?> GetAsync(Expression<Func<Product, bool>> filter);
 
-        Task RemoveAsync(Product product);
+        void RemoveAsync(Product product);
 
-        Task UpdateAsync(Product product);
+        void UpdateAsync(Product product);
 
         IQueryable<Product> Where(Expression<Func<Product, bool>> expression);
+
+        Task SaveChangesAsync();
     }
 }

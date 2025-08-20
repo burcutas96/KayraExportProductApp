@@ -24,12 +24,8 @@ namespace Repository.Concrete
 
 
 
-        public async Task AddAsync(Product product)
-        {
-            await _dbSet.AddAsync(product);
-
-            await _context.SaveChangesAsync();
-        }
+        public async Task AddAsync(Product product) 
+            => await _dbSet.AddAsync(product);
 
 
 
@@ -55,26 +51,24 @@ namespace Repository.Concrete
 
 
 
-        public async Task RemoveAsync(Product product)
-        {
-            _dbSet.Remove(product);
-
-            await _context.SaveChangesAsync();
-        }
+        public void RemoveAsync(Product product) 
+            => _dbSet.Remove(product);
 
 
 
-        public async Task UpdateAsync(Product product)
-        {
-            _dbSet.Update(product);
+        public void UpdateAsync(Product product)
+            => _dbSet.Update(product);
 
-            await _context.SaveChangesAsync();
-        }
 
 
 
         public IQueryable<Product> Where(Expression<Func<Product, bool>> expression)
             => _dbSet.Where(expression);
+
+
+
+        public async Task SaveChangesAsync()
+            => await _context.SaveChangesAsync();
     }
 
 }

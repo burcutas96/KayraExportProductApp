@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Entity.Dtos
 {
-    public class ProductInsertDto 
+    public class ProductUpsertDto 
     {
         public string Name { get; set; }
 

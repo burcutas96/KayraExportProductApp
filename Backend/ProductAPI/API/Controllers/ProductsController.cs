@@ -1,4 +1,5 @@
-﻿using Entity.Dtos;
+﻿using API.Dtos;
+using Entity.Dtos;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Service.Abstract;
@@ -18,18 +19,34 @@ namespace API.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> Add(ProductInsertDto productInsertDto)
+        public async Task<IActionResult> Add(ProductUpsertDto productUpsertDto)
         {
             try
             {
-                await _productService.Add(productInsertDto);
+                await _productService.Add(productUpsertDto);
 
-                return Ok(new { Message = "Ürün başarıyla eklendi." });
+                return Ok(new ApiResponse { Success = true, Message = "Ürün başarıyla eklendi." });
             }
             catch (ProductNameAlreadyExistsException ex)
             {
-                return BadRequest(new { Message = ex.Message });
+                return BadRequest(new ApiResponse { Success = false, Message = ex.Message });
             }
+        }
+
+
+        [HttpPut]
+        public async Task<IActionResult> Update(int productId, ProductUpsertDto productUpsertDto)
+        {
+            try
+            {
+                await _productService.Update(productId, productUpsertDto);
+                return Ok(new ApiResponse { Success = true, Message = "Ürün başarıyla güncellendi." });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new ApiResponse { Success = false, Message = ex.Message });
+            }
+
         }
     }
 }
