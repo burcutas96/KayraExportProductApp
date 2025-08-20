@@ -62,6 +62,19 @@ namespace Service.Concrete
         }
 
 
+        public async Task Delete(int productId)
+        {
+            Product product = await CheckIfProductEntity(productId);
+
+            product.IsDeleted = true;
+            product.DeleteDate = DateTime.Now;
+
+            await _productDal.SaveChangesAsync();
+        }
+
+
+
+
 
 
         private async Task<Product> CheckIfProductEntity(int productId)

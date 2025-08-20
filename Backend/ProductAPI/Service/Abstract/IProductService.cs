@@ -12,5 +12,7 @@ namespace Service.Abstract
         Task Add(ProductUpsertDto productUpsertDto);
 
         Task Update(int productId, ProductUpsertDto productUpsertDto);
+
+        Task Delete(int productId);
     }
 }

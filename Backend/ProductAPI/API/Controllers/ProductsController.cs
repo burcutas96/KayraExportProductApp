@@ -34,6 +34,7 @@ namespace API.Controllers
         }
 
 
+
         [HttpPut]
         public async Task<IActionResult> Update(int productId, ProductUpsertDto productUpsertDto)
         {
@@ -43,6 +44,23 @@ namespace API.Controllers
                 return Ok(new ApiResponse { Success = true, Message = "Ürün başarıyla güncellendi." });
             }
             catch (Exception ex)
+            {
+                return BadRequest(new ApiResponse { Success = false, Message = ex.Message });
+            }
+
+        }
+
+
+
+        [HttpDelete]
+        public async Task<IActionResult> Delete(int productId)
+        {
+            try
+            {
+                await _productService.Delete(productId);
+                return Ok(new ApiResponse { Success = true, Message = "Ürün başarıyla silindi." });
+            }
+            catch (ProductNotFoundException ex)
             {
                 return BadRequest(new ApiResponse { Success = false, Message = ex.Message });
             }
