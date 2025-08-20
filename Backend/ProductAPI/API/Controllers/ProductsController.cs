@@ -64,7 +64,23 @@ namespace API.Controllers
             {
                 return BadRequest(new ApiResponse { Success = false, Message = ex.Message });
             }
+        }
 
+
+
+        [HttpGet]
+        public async Task<IActionResult> GetById(int productId)
+        {
+            try
+            {
+                ProductDetailDto productDetailDto = await _productService.GetById(productId);
+                
+                return Ok(new ApiDataResponse<ProductDetailDto> { Success = true, Message = "Ürün başarıyla getirildi.", Data = productDetailDto });
+            }
+            catch (ProductNotFoundException ex)
+            {
+                return BadRequest(new ApiResponse { Success = false, Message = ex.Message });
+            }
         }
     }
 }

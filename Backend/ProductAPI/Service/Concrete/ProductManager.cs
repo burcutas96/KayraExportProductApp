@@ -74,6 +74,25 @@ namespace Service.Concrete
 
 
 
+        public async Task<ProductDetailDto> GetById(int productId)
+        {
+            Product product = await CheckIfProductEntity(productId);
+
+            return new ProductDetailDto()
+            {
+                Id = product.Id,
+                Name = product.Name,
+                Price = product.Price,
+                Description = product.Description,
+                Stock = product.Stock,
+                IsDeleted = product.IsDeleted,
+                CreateDate = product.CreateDate,
+            };
+        }
+
+
+
+
 
 
 
