@@ -19,9 +19,9 @@ namespace Service.Concrete
     {
         readonly IProductDal _productDal;
 
-        public ProductManager(IProductDal productDal) 
+        public ProductManager(IProductDal productDal)
             => _productDal = productDal;
-        
+
 
 
         public async Task Add(ProductUpsertDto productInsertDto)
@@ -92,6 +92,27 @@ namespace Service.Concrete
 
 
 
+        public async Task<List<ProductDto>> GetAll()
+        {
+            List<Product> products = await _productDal
+                .GetAllAsync(p => !p.IsDeleted);
+
+            List<ProductDto> productDtos = new();
+
+            products.ForEach(p => productDtos.Add(
+                new ProductDto()
+                {
+                    Name = p.Name,
+                    Description = p.Description,
+                    Price = p.Price,
+                    Stock = p.Stock
+                }));
+
+            return productDtos;
+        }
+
+
+
 
 
 
@@ -100,7 +121,7 @@ namespace Service.Concrete
         {
             Product? product = await _productDal
                 .GetAsync(p => p.Id == productId && !p.IsDeleted)
-                ?? 
+                ??
                 throw new ProductNotFoundException();
 
             return product;

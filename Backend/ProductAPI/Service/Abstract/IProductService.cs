@@ -16,5 +16,7 @@ namespace Service.Abstract
         Task Delete(int productId);
 
         Task<ProductDetailDto> GetById(int productId);
+
+        Task<List<ProductDto>> GetAll();
     }
 }

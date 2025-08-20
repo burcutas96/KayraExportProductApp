@@ -7,7 +7,7 @@ using Service.Exceptions.Product;
 
 namespace API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class ProductsController : ControllerBase
     {
@@ -81,6 +81,15 @@ namespace API.Controllers
             {
                 return BadRequest(new ApiResponse { Success = false, Message = ex.Message });
             }
+        }
+
+
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
+        {
+            List<ProductDto> productDtos = await _productService.GetAll();
+
+            return Ok(new ApiDataResponse<List<ProductDto>> { Success = true, Message = "Ürünler başarıyla listelendi.", Data = productDtos });
         }
     }
 }
