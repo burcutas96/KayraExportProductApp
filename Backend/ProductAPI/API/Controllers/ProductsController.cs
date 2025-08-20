@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Service.Abstract;
+using Service.Exceptions.Product;
 
 namespace API.Controllers
 {
@@ -18,6 +19,17 @@ namespace API.Controllers
 
         [HttpPost]
         public async Task<IActionResult> Add(ProductInsertDto productInsertDto)
-            => Ok(await _productService.Add(productInsertDto));
+        {
+            try
+            {
+                await _productService.Add(productInsertDto);
+
+                return Ok(new { Message = "Ürün başarıyla eklendi." });
+            }
+            catch (ProductNameAlreadyExistsException ex)
+            {
+                return BadRequest(new { Message = ex.Message });
+            }
+        }
     }
 }
