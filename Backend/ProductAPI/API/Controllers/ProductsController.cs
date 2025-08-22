@@ -111,9 +111,9 @@ namespace API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            List<ProductDto> productDtos = await _productService.GetAll();
+            List<ProductListDto> productDtos = await _productService.GetAll();
 
-            return Ok(new ApiDataResponse<List<ProductDto>> { Success = true, Message = "Ürünler başarıyla listelendi.", Data = productDtos });
+            return Ok(new ApiDataResponse<List<ProductListDto>> { Success = true, Message = "Ürünler başarıyla listelendi.", Data = productDtos });
         }
     }
 }

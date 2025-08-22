@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Http;
 using Repository.Abstract;
 using Service.Abstract;
 using Service.Exceptions;
-using Service.Exceptions.File;
 using Service.Exceptions.Product;
 using System;
 using System.Collections.Generic;
@@ -78,30 +77,30 @@ namespace Service.Concrete
         {
             Product product = await CheckIfProductEntity(productId);
 
-            return new ProductDetailDto()
+            return new()
             {
-                Id = product.Id,
                 Name = product.Name,
                 Price = product.Price,
                 Description = product.Description,
                 Stock = product.Stock,
-                IsDeleted = product.IsDeleted,
+                UpdateDate = product.UpdateDate,
                 CreateDate = product.CreateDate,
             };
         }
 
 
 
-        public async Task<List<ProductDto>> GetAll()
+        public async Task<List<ProductListDto>> GetAll()
         {
             List<Product> products = await _productDal
                 .GetAllAsync(p => !p.IsDeleted);
 
-            List<ProductDto> productDtos = new();
+            List<ProductListDto> productDtos = new();
 
             products.ForEach(p => productDtos.Add(
-                new ProductDto()
+                new()
                 {
+                    Id = p.Id,
                     Name = p.Name,
                     Description = p.Description,
                     Price = p.Price,

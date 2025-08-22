@@ -17,6 +17,6 @@ namespace Service.Abstract
 
         Task<ProductDetailDto> GetById(int productId);
 
-        Task<List<ProductDto>> GetAll();
+        Task<List<ProductListDto>> GetAll();
     }
 }

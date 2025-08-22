@@ -6,10 +6,8 @@ using System.Threading.Tasks;
 
 namespace Entity.Dtos
 {
-    public class ProductDetailDto : ProductDto
+    public class ProductListDto : ProductDto
     {
-        public DateTime? UpdateDate { get; set; }
-
-        public DateTime CreateDate { get; set; }
+        public int Id { get; set; }
     }
 }
